@@ -22,7 +22,8 @@ const Login: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (user)
+    console.log('user', user);
+    if (Object.keys(user).length > 0)
       navigation('home');
   }, [user]);
 

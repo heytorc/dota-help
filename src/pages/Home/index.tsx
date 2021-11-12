@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const [heroes, setHeroes] = useState([]);
 
   useEffect(() => {
-    if (!user) {
+    if (Object.keys(user).length === 0) {
       navigate('/');
     } else {
       handleHeroes();
