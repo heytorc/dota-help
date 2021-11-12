@@ -1,23 +1,52 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 
-import SteamService from 'src/services/steam.services';
+import { GlobalContext } from 'src/context/GlobalContext';
+
+import { handleHeroes as handleHeroesProvider } from 'src/providers/heroes.provider';
 
 import { ReactComponent as Logo } from 'src/assets/images/logo.svg';
 
 import Container from 'src/styles/components/Container';
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+  const { updateUser, user } = useContext(GlobalContext);
 
-  const steamAuth = async () => {
-    const redirectUrl = await SteamService.getRedirectUrl();
-    console.log(redirectUrl);
+  const [heroes, setHeroes] = useState([]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    } else {
+      handleHeroes();
+    }
+  }, [user]);
+
+  const signOut = () => {
+    updateUser(undefined);
+  };
+
+  const handleHeroes = async () => {
+    const heroesArray = await handleHeroesProvider();
+
+    console.log(heroesArray);
+
+    setHeroes(heroesArray);
   };
 
   return (
     <Container>
       <Logo />
 
-      <button onClick={steamAuth}>Entrar</button>
+      <h1 style={{ color: '#fff' }}>LOGADO!</h1>
+
+      <div>
+        {heroes.map((hero: any) => <p key={`key_hero_${hero.id}`}>{hero.name}</p>)}
+      </div>
+
+      <button onClick={signOut}>Sair</button>
     </Container>
   );
 }

@@ -1,5 +1,8 @@
 import React from 'react';
-import HomePage from 'src/pages/Home';
+
+import { GlobalProvider } from 'src/context/GlobalContext';
+
+import Routes from 'src/routes';
 
 import GlobalStyles from 'src/styles/globalStyles';
 import './App.scss';
@@ -9,7 +12,9 @@ function App() {
     <>
       <GlobalStyles />
       <div className="App">
-        <HomePage />
+        <GlobalProvider>
+          <Routes />
+        </GlobalProvider>
       </div>
     </>
   );
