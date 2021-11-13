@@ -9,8 +9,6 @@ import { handleHeroes as handleHeroesProvider, handleHeroImage } from 'src/provi
 
 import { HeroGrid, HeroName } from 'src/styles/components/Hero';
 
-import { ReactComponent as Logo } from 'src/assets/images/logo.svg';
-
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const { updateUser, user } = useContext(GlobalContext);
