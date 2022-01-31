@@ -2,10 +2,13 @@
 import React, { useEffect, useContext } from 'react';
 import socketio from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
+import { FaSteam } from 'react-icons/fa';
 
 import useLocalStorage from 'src/commons/hooks/useLocalStorage';
 
 import { GlobalContext } from 'src/context/GlobalContext';
+
+import Button from 'src/components/Button';
 
 import { ReactComponent as Logo } from 'src/assets/images/logo.svg';
 
@@ -19,8 +22,8 @@ const Login: React.FC = () => {
   const [localUser, setUser] = useLocalStorage("user", "");
 
   useEffect(() => {
-    if (localUser.length > 0) {
-      updateUser(JSON.parse(localUser));
+    if (localUser.steamid) {
+      updateUser(localUser);
     }
 
     socket.on('Backend:UserAuthenticated', (data) => {
@@ -29,8 +32,8 @@ const Login: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (Object.keys(user).length > 0) {
-      setUser(JSON.stringify(user));
+    if (user.steamid) {
+      setUser(user);
       navigation('home');
     }
   }, [user]);
@@ -41,10 +44,15 @@ const Login: React.FC = () => {
 
   return (
     <Container>
-      {localUser.length === 0 && (
+      {!user.steamid && (
         <>
           <Logo />
-          <button onClick={handleAuthenticateUser}>Entrar</button>
+          <br/>
+          <Button
+            onClick={handleAuthenticateUser}
+          >
+            <FaSteam size={30} /> Entre com sua conta Steam
+          </Button>
         </>
       )}
     </Container>

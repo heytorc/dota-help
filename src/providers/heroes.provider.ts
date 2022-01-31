@@ -1,8 +1,10 @@
 import { backendAPI } from 'src/services/axios';
 
+import IHero from 'src/commons/interface/IHero';
+
 export const handleHeroes = async () => {
   try {
-    const { data: heroes = [] } = await backendAPI.get(`/heroes`);
+    const { data: heroes = [] } : { data: IHero[] } = await backendAPI.get(`/heroes`);
 
     return heroes;
   } catch (error) {
